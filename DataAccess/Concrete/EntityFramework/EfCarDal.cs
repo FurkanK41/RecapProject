@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityFramework;
+using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,49 +12,28 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfCarDal : ICarDal
-    {        
-        public void Add(Car entity)
+    public class EfCarDal : EfEntityRepositoryBase<Car, WorkContext>, ICarDal
+    {
+        public List<CarDetailDto> GetCarDetails()
         {
             using (WorkContext context = new WorkContext())
             {
-                var addedCar = context.Entry(entity);
-                addedCar.State = EntityState.Added;
-                context.SaveChanges();
-            }
-        }
+                var result = from c in context.Cars
+                             join col in context.Colors
+                             on c.ColorId equals col.Id
+                             join b in context.Brands
+                             on c.BrandId equals b.Id
+                             select new CarDetailDto
+                             {
+                                 CarName = c.Name,
+                                 BrandName = b.Name,
+                                 ColorName = c.Name,
+                                 DailyPrice = c.DailyPrice
+                             };
+                return result.ToList();
 
-        public void Delete(Car entity)
-        {
-            using (WorkContext context = new WorkContext())
-            {
-                var deletedCar = context.Entry(entity);
-                deletedCar.State = EntityState.Deleted;
-                context.SaveChanges();
-            }
-        }
-
-        public List<Car> Get(Expression<Func<Car, bool>> filter = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (WorkContext context = new WorkContext())
-            {
-                return filter == null ? context.Set<Car>().ToList() : context.Set<Car>().Where(filter).ToList();  
-            }
-        }
-
-        public void Update(Car entity)
-        {
-            using (WorkContext context = new WorkContext())
-            {
-                var updatedCar = context.Entry(entity);
-                updatedCar.State = EntityState.Modified;
-                context.SaveChanges();
             }
         }
     }
 }
+
