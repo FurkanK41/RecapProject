@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -9,32 +11,44 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class ColorManager:IColorService
+    public class ColorManager : IColorService
     {
         IColorDal _colorDal;
 
-        public void AddColor(Color color)
+        public IResult AddColor(Color color)
         {
-            _colorDal.Add(color);
+            if (color.Name.Length > 2)
+            {
+                return new SuccessResult(ColorMessages.ColorAdded);
+                _colorDal.Add(color);
+            }
+            return new ErrorResult();
         }
 
-        public void DeleteColor(Color color)
+        public IResult DeleteColor(Color color)
         {
             _colorDal.Delete(color);
+            return new SuccessResult(ColorMessages.ColorDeleted);
         }
 
-        public List<Color> GetAll()
+        public IDataResult<List<Color>> GetAll()
         {
-            return _colorDal.GetAll();
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
         }
 
-        public void GetById(int id)
+        public IResult GetById(int id)
         {
-             _colorDal.Get(c=>c.Id==id);
+            if (id < 1)
+            {
+                return new ErrorResult();
+            }
+            return new SuccessResult();
+            _colorDal.Get(c => c.Id == id);
         }
 
-        public void UpdateColor(Color color)
+        public IResult UpdateColor(Color color)
         {
+            return new SuccessResult();
             _colorDal.Update(color);
         }
     }
