@@ -34,6 +34,9 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+
+
         [HttpPost("adduser")]
         public IActionResult AddUser(User user)
         {

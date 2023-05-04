@@ -9,21 +9,14 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
 
-            CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var item in carManager.GetAll().Data)
+                   
+
+            UserManager userManager = new UserManager(new EfUserDal());
+            userManager.AddUser(new User
             {
-                Console.WriteLine(item.Description);
-            }
-            Console.WriteLine("çalıştı");
-
-            //CustomerManager customerManager1 = new CustomerManager(new EfCustomerDal());
-            //customerManager1.Add(new Customer
-            //{
-            //    CompanyName = "Deneme müşteri"
-            //});
-            //Console.WriteLine(" müşteri eklendi ");            
-
-
+                Email = "Furkan@f.com"
+            });
+            Console.WriteLine("çalştı");
 
         }
     }
