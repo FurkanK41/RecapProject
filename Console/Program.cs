@@ -1,8 +1,6 @@
 ﻿using Business.Concrete;
-using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
-using System;
 
 namespace ConsoleUI
 {
@@ -11,12 +9,22 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
 
-            //burada hata alıyorum nedenini anlayamadım.
-            
+            CarManager carManager = new CarManager(new EfCarDal());
+            foreach (var item in carManager.GetAll().Data)
+            {
+                Console.WriteLine(item.Description);
+            }
+            Console.WriteLine("çalıştı");
 
-            CustomerManager customerManager = new CustomerManager ();
-            customerManager.Add(new Customer { CompanyName = "Furkan Holding" });
-            customerManager.Add(new Customer { CompanyName = "Burak Holding" });
+            //CustomerManager customerManager1 = new CustomerManager(new EfCustomerDal());
+            //customerManager1.Add(new Customer
+            //{
+            //    CompanyName = "Deneme müşteri"
+            //});
+            //Console.WriteLine(" müşteri eklendi ");            
+
+
+
         }
     }
 }

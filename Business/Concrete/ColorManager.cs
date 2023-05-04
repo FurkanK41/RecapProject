@@ -14,17 +14,17 @@ namespace Business.Concrete
     public class ColorManager : IColorService
     {
         IColorDal _colorDal;
+        public ColorManager(IColorDal colorDal)
+        {
+            _colorDal = colorDal;
+        }
 
         public IResult AddColor(Color color)
         {
-            if (color.Name.Length > 2)
-            {
-                return new SuccessResult(ColorMessages.ColorAdded);
-                _colorDal.Add(color);
-            }
-            return new ErrorResult();
+            _colorDal.Add(color);
+            return new SuccessResult();
         }
-
+        //silmek için
         public IResult DeleteColor(Color color)
         {
             _colorDal.Delete(color);
@@ -36,20 +36,15 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
         }
 
-        public IResult GetById(int id)
+        public IDataResult<Color> GetById(int id)
         {
-            if (id < 1)
-            {
-                return new ErrorResult();
-            }
-            return new SuccessResult();
-            _colorDal.Get(c => c.Id == id);
+            return new SuccessDataResult<Color>(_colorDal.Get(c=>c.Id==id));
         }
-
+        // güncellemek için
         public IResult UpdateColor(Color color)
-        {
-            return new SuccessResult();
+        {            
             _colorDal.Update(color);
+            return new SuccessResult();
         }
     }
 }

@@ -12,7 +12,12 @@ namespace Business.Concrete
 {
     public class CustomerManager : ICustomerService
     {
+        
         ICustomerDal _customerDal;
+        public CustomerManager(ICustomerDal customerDal)
+        {
+            _customerDal = customerDal;
+        }
         public IResult Add(Customer customer)
         {
             _customerDal.Add(customer);
@@ -27,15 +32,13 @@ namespace Business.Concrete
         }
 
         public IDataResult<Customer> GetById(int id)
-        {
-            _customerDal.Get(c => c.UserId == id);
-            // üstteki koddan çok emin olamadım
-            return new SuccessDataResult<Customer>();
+        {  
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.UserId == id));
         }
 
         public IDataResult<List<Customer>> GetAll()
         {
-           return new SuccessDataResult<List<Customer>>();
+           return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
 
         }
 
