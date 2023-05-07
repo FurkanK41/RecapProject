@@ -1,6 +1,5 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -34,8 +33,6 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-
-
 
         [HttpPost("adduser")]
         public IActionResult AddUser(User user)
