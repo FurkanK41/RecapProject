@@ -9,12 +9,12 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
 
-                   
 
-            UserManager userManager = new UserManager(new EfUserDal());
-            userManager.AddUser(new User
+            CarManager carManager = new CarManager(new EfCarDal());
+            carManager.AddCar(new Car
             {
-                Email = "Furkan@f.com"
+                BrandId = 1,
+                ModelYear = 2020
             });
             Console.WriteLine("çalştı");
 

@@ -23,22 +23,22 @@ namespace Business.Concrete
         public IResult AddCar(Car car)
         {
             _carDal.Add(car);
-            return new SuccessResult();
+            return new SuccessResult(CarMessages.CarAdded);
         }
 
         public IResult Delete(Car car)
-        {            
+        {
             _carDal.Delete(car);
             return new SuccessResult(CarMessages.CarDeleted);
         }
 
         public IDataResult<List<Car>> GetAll()
-        {            
+        {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
 
         public IDataResult<Car> GetById(int id)
-        {           
+        {
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
 
         }
